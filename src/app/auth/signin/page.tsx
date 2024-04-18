@@ -1,5 +1,10 @@
+
+"use client";
+
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import {Input} from "~/components/ui/input";
+
 
 
 const page  = ()=>{
@@ -11,7 +16,9 @@ const page  = ()=>{
                 <p className="text-[17px] text-[#677489] text-[500]">Enter the fields below to get started</p>
             </div>
            <div className="flex flex-col gap-4 justify-center items-center">
-           <button className="large-secondary-btn">
+           <button className="large-secondary-btn"
+            onClick={() => signIn("github", { callbackUrl: "/settings/profile" })}
+           >
                 <span className="flex justify-center items-center gap-2">
                     <img src={'/github.svg'} alt="" />
                     <span>Sign in with Github</span>

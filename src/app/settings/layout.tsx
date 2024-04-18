@@ -1,5 +1,4 @@
 import { SettingsMenu } from "../_components/ui/SettingsMenu";
-
 export default function Layout({ children }:{children: React.ReactNode}) {
 
 

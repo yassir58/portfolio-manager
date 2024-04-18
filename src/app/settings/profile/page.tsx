@@ -1,6 +1,12 @@
+import { getServerSession } from "next-auth/next";
 import {Input} from '~/components/ui/input' ;
 
-const page = ()=>{
+const page = async ()=>{
+
+
+  const session = await getServerSession();
+
+  console.log (session)
     return (
         <div className='flex flex-col justify-center items-center gap-2 w-full h-full'>
             <div className='flex flex-col gap-6 justify-center items-start w-[70%] pt-8'>
