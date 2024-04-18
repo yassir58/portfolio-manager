@@ -5,8 +5,7 @@ const config = {
     "project": true
   },
   "plugins": [
-    "@typescript-eslint",
-    "drizzle"
+    "@typescript-eslint"
   ],
   "extends": [
     "next/core-web-vitals",
@@ -37,9 +36,7 @@ const config = {
           "attributes": false
         }
       }
-    ],
-    "drizzle/enforce-delete-with-where": "error",
-    "drizzle/enforce-update-with-where": "error"
+    ]
   }
 }
 module.exports = config;

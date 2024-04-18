@@ -1,10 +1,12 @@
 import { getServerSession } from "next-auth/next";
 import {Input} from '~/components/ui/input' ;
+import {authOptions} from '~/server/auth'
+
 
 const page = async ()=>{
 
 
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   console.log (session)
     return (
