@@ -24,6 +24,9 @@ export const PortfolioScreen:React.FC<props> = (user) =>{
     username:usrname??''
   })
 
+const {data:projects} = api.users.getProjects.useQuery();
+  
+
   if (isLoading)
   {
       return (
@@ -71,7 +74,11 @@ export const PortfolioScreen:React.FC<props> = (user) =>{
             <p className="my-4  text-[18px] font-[500] text-[#677489]">
               Projects
             </p>
-              
+            {
+                  projects?.map((project, index)=>(
+                    <ProjectCard key={index} project={project} edit={false}/>
+                  ))
+                }
           </div>
         </div>
         <footer className='w-[100%]'>

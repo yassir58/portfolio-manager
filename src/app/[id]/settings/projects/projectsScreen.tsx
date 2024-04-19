@@ -3,9 +3,34 @@
 import React, { useState } from "react";
 import ProjectCard from "~/app/_components/ui/projectCard";
 import {Input} from "~/components/ui/input";
+import { UploadButton } from "~/lib/uploadthing";
+import { api } from "~/trpc/react";
 
-export const ProjectsScreen = () =>{
+interface props {
+    user: {
+        name: string,
+        image: string,
+        email:string
+        id:string
+    }
+
+}
+
+export const ProjectsScreen:React.FC<props> = ({user}) =>{
 const [isVisible, setIsVisible] = useState(false);
+const [url, setUrl] = useState ('')
+const [title, setTitle] = useState ('')
+const [description, setDescription] = useState ('')
+const [demoUrl, setDemoUrl] = useState ('')
+const [repoUrl, setRepoUrl] = useState ('')
+const utils = api.useUtils();
+const {data:projects, isLoading} = api.users.getProjects.useQuery();
+const createProject = api.users.createProject.useMutation({
+  onSuccess:()=>{
+    console.log ('project created successfully');
+    void utils.users.getProjects.invalidate();
+  }
+});
 
     return (
         <div className="flex h-full w-full flex-col items-center justify-center gap-2">
@@ -20,17 +45,41 @@ const [isVisible, setIsVisible] = useState(false);
           <div className={`flex h-auto w-full flex-col items-center justify-center rounded-md border-2 border-[#E3E8EF] py-3 ${isVisible ? 'block' : 'hidden'}`}>
             <div className="flex h-[250px] w-[90%] items-center justify-center rounded-md bg-[#F2F5F9]">
               <div className="flex flex-col items-center justify-center gap-2">
-                <div className="flex h-[80px] w-[80px] items-center justify-center rounded-full  bg-[#CDD5E0] hover:opacity-85">
-                  <img src="/profile-1.svg" alt="user" className="w-8" />
-                </div>
+              {
+                url.length > 0 ? <img src={url} alt="profile" className="w-[80px] h-[80px] rounded-full"/> : ( <div className="flex h-[80px] w-[80px] items-center justify-center rounded-full  bg-[#CDD5E0] hover:opacity-85">
+                <img src="/profile-1.svg" alt="user" className="w-8" />
+              </div>)
+             }
                 <p className="pt-6 text-[18px] text-[#677489]">
                   Image must be 256 x 256px - max 2MB
                 </p>
                 <div className="flex items-center justify-center gap-4">
-                  <button className="primary-action-btn">
-                    <img src="/upload.svg" alt="" className="w-6" />
+                <UploadButton
+                  content={{
+                    button({ ready }) {
+                      if (ready) return <div className='flex justify-center items-center gap-2'>
+                          <img src="/upload.svg" alt="" className='w-6'/>
                     Upload new photo
-                  </button>
+                      </div>;
+
+                      return "Getting ready...";
+                    },
+                    allowedContent({ ready, fileTypes, isUploading }) {
+                      return ``;
+                    },
+                  }}
+                  className="ut-button:mt-6 ut-button:w-[220px] ut-button:bg-white ut-button:text-[#20293A] ut-button:shadow-md"
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    // Do something with the response
+                    setUrl(res[0]?.url??'');
+                    console.log("Files: ", res);
+                  }}
+                  onUploadError={(error: Error) => {
+                    // Do something with the error.
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
                   <button className="danger-action-btn">
                     <img src="/Trash.svg" alt="delete" className="w-6" />
                     Remove photo
@@ -45,6 +94,8 @@ const [isVisible, setIsVisible] = useState(false);
                     Project name
                   </label>
                   <Input
+                  onChange={(e)=> setTitle (e.target.value)}
+                  value={title}
                     className='primary-input'
                     id="projectName"
                     type="text"
@@ -59,7 +110,8 @@ const [isVisible, setIsVisible] = useState(false);
                   <Input
                     className='primary-input'
                     type="text"
-                    
+                    onChange={(e)=> setDemoUrl (e.target.value)}
+                    value={demoUrl}
                     placeholder="Enter demo url"
                     id="demo"
                   />
@@ -70,6 +122,8 @@ const [isVisible, setIsVisible] = useState(false);
                   Repository URL
                 </label>
                 <Input
+                  onChange={(e)=> setRepoUrl (e.target.value)}
+                  value={repoUrl}
                   className='primary-input'
                   id="repo"
                   type="text"
@@ -82,6 +136,8 @@ const [isVisible, setIsVisible] = useState(false);
                   Description
                 </label>
                 <textarea
+                onChange={(e)=> setDescription (e.target.value)}
+                value={description}
                   name="bio"
                   className="primary-input h-[160px] w-full"
                   placeholder="Enter your project description"
@@ -92,7 +148,17 @@ const [isVisible, setIsVisible] = useState(false);
                   <img src="/Trash-1.svg" alt="" />
                   Remove
                 </button>
-                <button className="primary-btn flex items-center justify-center gap-2">
+                <button className="primary-btn flex items-center justify-center gap-2" onClick={()=>{
+                  createProject.mutate({
+                    userId: user?.id,
+                    name: title,
+                    description,
+                    demoUrl,
+                    repoUrl,
+                    image: url
+                  })
+                  setIsVisible (false)
+                }}>
                   <img src="/Plus-1.svg" alt="" />
                   Add
                 </button>
@@ -101,8 +167,13 @@ const [isVisible, setIsVisible] = useState(false);
           </div>
         </div>
         <div className="flex w-[70%] flex-col items-start justify-center gap-6 py-8">
-          <ProjectCard edit={true} project={{title: 'Music Player', description: 'I was Junior Front-End Developers,who are responsible for implementing visual and interactive elements that users see and interact with in a web application. ', image: '/Sketch - jpeg.png'}} />
+                {
+                  projects?.map((project, index)=>(
+                    <ProjectCard key={index} project={project} edit={true}/>
+                  ))
+                }
         </div>
       </div>
     )
 }
+

@@ -3,9 +3,11 @@ interface props
 {
     edit:boolean,
     project: {
-        title: string,
+        name: string,
         description: string,
-        image: string
+        image: string,
+        demoUrl:string
+        repoUrl:string
     }
 }
 
@@ -15,7 +17,7 @@ const ProjectCard:React.FC<props> = ({project, edit}) =>{
         <div className='w-full rounded-md border-2 border-[#E3E8EF] p-4 flex justify-start items-center gap-6'>
             <img src={project.image} alt="" className="w-[217px] h-[138px] rounded-md object-cover" />
             <div className='flex flex-col items-start justify-start gap-2 w-full h-full '>
-            <h1 className="font-[600] text-[#20293A] text-2xl">{project.title}</h1>
+            <h1 className="font-[600] text-[#20293A] text-2xl">{project.name}</h1>
                 <p className="text-[#677489] text-[17px] font-[400]">{project.description}</p>
                 {edit ? (
                      <button className="secondary-btn flex items-center justify-center gap-2">

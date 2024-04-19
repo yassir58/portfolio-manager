@@ -27,12 +27,12 @@ export function SettingsMenu({
       <PopoverTrigger asChild>
         {user?.image ? (
           <img
-            className="h-[50px] w-[50px] rounded-full"
+            className="h-[50px] w-[50px] hover:ring-2 rounded-full"
             src={user?.image}
             alt=""
           />
         ) : (
-          <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full  bg-[#CDD5E0] hover:opacity-85">
+          <button className="flex h-[50px] w-[50px] hover:ring-2 items-center justify-center rounded-full  bg-[#CDD5E0] hover:opacity-85">
             <img src={"/profile.svg"} alt="user" className="w-6" />
           </button>
         )}

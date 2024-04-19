@@ -53,5 +53,32 @@ export const usersRouter = createTRPCRouter ({
                 image:input.image,
             }
         })
-    })
+    }),
+    createProject:protectedProcedure.input (z.object({
+        name:z.string (),
+        description:z.string (),
+        image:z.string (),
+        userId:z.string (),
+        repoUrl:z.string (),
+        demoUrl:z.string (),
+        
+    })).mutation (async ({ctx, input})=>{
+
+        await ctx.db.project.create({
+            data:{
+                name:input.name,
+                description:input.description,
+                image:input.image,
+                userId:input.userId,
+                repoUrl:input.repoUrl,
+                demoUrl:input.demoUrl,
+            }
+        
+        })
+       
+    }),
+    getProjects:protectedProcedure.query (async ({ctx})=>{
+        const response = await ctx.db.project.findMany()
+        return response;
+    }),
 })
