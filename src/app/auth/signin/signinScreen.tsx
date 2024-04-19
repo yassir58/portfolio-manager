@@ -17,7 +17,7 @@ export const SignInScreen = ()=>{
             </div>
            <div className="flex flex-col gap-4 justify-center items-center">
            <button className="large-secondary-btn"
-            onClick={() => signIn("github", { callbackUrl: "/settings/profile" })}
+            onClick={() => signIn("github", { callbackUrl: "/" })}
            >
                 <span className="flex justify-center items-center gap-2">
                     <img src={'/github.svg'} alt="" />

@@ -13,7 +13,7 @@ const page  =async  ()=>{
 
     console.log (session)
     if (session && session.user)
-    {redirect ('/')}
+        {redirect ('/')}
 
     return (<SignInScreen/>)
 }
