@@ -50,7 +50,7 @@ export const SignInScreen = ()=>{
             <Input onChange={(e)=>setEmail(e.target.value)} type="email" className="primary-input" placeholder='Enter email' required/>
             <div className="flex w-[400px]  flex-col gap-1 justify-center items-end">
             <Input onChange={(e)=>setPassword (e.target.value)} type="password" className="primary-input" placeholder='Enter a password' required/>
-            <Link href='/auth/forgotPassword' className='text-[#6466E9] font-[700] hover:opacity-85'>Forgot password</Link>
+            <Link href='/auth/forgot-password' className='text-[#6466E9] font-[700] hover:opacity-85'>Forgot password</Link>
             </div>
             <button className="large-primary-btn" onClick={handleSignIn}>Sign in</button>
             <div className='flex justify-start items-center w-[400px]'>

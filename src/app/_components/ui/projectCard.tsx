@@ -1,8 +1,11 @@
-
+import { EditProject } from "../EditProject"
+import Modal from "./modal"
+import Link from 'next/link'
 interface props
 {
     edit:boolean,
     project: {
+        id:string
         name: string,
         description: string,
         image: string,
@@ -20,20 +23,24 @@ const ProjectCard:React.FC<props> = ({project, edit}) =>{
             <h1 className="font-[600] text-[#20293A] text-2xl">{project.name}</h1>
                 <p className="text-[#677489] text-[17px] font-[400]">{project.description}</p>
                 {edit ? (
-                     <button className="secondary-btn flex items-center justify-center gap-2">
-                     <img src="/Pencil.svg" alt="" className="w-6" />
-                     Edit
-                 </button>
+
+                    <Modal variant={'secondary-btn'} value={<div className='flex items-center justify-center gap-2'>
+                        <img src="/Pencil.svg" alt="" className="w-6" />
+                        Edit
+                    </div>}>
+                        <EditProject project={project}/>
+                    </Modal>
                 ) : (
                     <div className='flex justify-start items-center gap-3'>
-                        <button className="outline-btn flex items-center justify-center gap-2">
+                        
+                        <Link href={project.demoUrl} className="outline-btn flex items-center justify-center gap-2">
                      Demo URL
                      <img src="/Link.svg" alt="" className="w-5" />
-                 </button>
-                 <button className="outline-btn flex items-center justify-center gap-2">
+                 </Link>
+                 <Link href={project.repoUrl} className="outline-btn flex items-center justify-center gap-2">
                      Repository URL
                      <img src="/Link.svg" alt="" className="w-5" />
-                 </button>
+                 </Link>
                     </div>
                 )}
                

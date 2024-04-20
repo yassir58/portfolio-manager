@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { db } from "~/server/db";
 import { z } from "zod";
+import { requestSchema } from "../../../../constant";
 
 
-export const requestSchema = z.object({
-    email: z.string().email (),
-    password:z.string().min(6)
-})
+
 
 export async function POST (req:Request){
 

@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import z from 'zod'
 
 export const usersRouter = createTRPCRouter ({
@@ -10,7 +10,7 @@ export const usersRouter = createTRPCRouter ({
         })
         return response;
     }),
-    getUserByUsername:protectedProcedure.input (z.object({
+    getUserByUsername:publicProcedure.input (z.object({
         username:z.string ()
     })).query (async ({ctx, input})=>{
         const response = await ctx.db.user.findUnique({
@@ -80,5 +80,26 @@ export const usersRouter = createTRPCRouter ({
     getProjects:protectedProcedure.query (async ({ctx})=>{
         const response = await ctx.db.project.findMany()
         return response;
+    }),
+    upateProject:protectedProcedure.input (z.object({
+        id:z.string (),
+        name:z.string (),
+        description:z.string (),
+        image:z.string (),
+        repoUrl:z.string (),
+        demoUrl:z.string (),
+    })).mutation (async ({ctx, input})=>{
+        await ctx.db.project.update({
+            where:{
+                id:input.id
+            },
+            data:{
+                name:input.name,
+                description:input.description,
+                image:input.image,
+                repoUrl:input.repoUrl,
+                demoUrl:input.demoUrl,
+            }
+        })
     }),
 })
