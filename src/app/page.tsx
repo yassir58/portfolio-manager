@@ -1,13 +1,14 @@
-import { authOptions } from "~/server/auth";
-import { api } from "~/trpc/server";
+import { authOptions, getServerAuthSession } from "~/server/auth";
 import { UpdateProfile } from "./_components/updateProfile";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getServerSession (authOptions)
+  const test = await getServerAuthSession ()
 
 
+  console.log (session)
   if (!session || (session && session.user == null))
     redirect ('/auth/signin');
 

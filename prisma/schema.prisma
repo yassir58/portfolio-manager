@@ -62,6 +62,7 @@ model User {
   username      String?   @unique
   jobTitle      String?
   bio           String?
+  password      String?   // @db.Text
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
