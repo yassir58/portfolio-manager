@@ -26,12 +26,17 @@ const [description, setDescription] = useState ('')
 const [demoUrl, setDemoUrl] = useState ('')
 const [repoUrl, setRepoUrl] = useState ('')
 const utils = api.useUtils();
-const {data:projects} = api.users.getProjects.useQuery({id:user.id});
+// const {data:projects} = api.users.getProjects.useQuery({id:user.id});
 const createProject = api.users.createProject.useMutation({
   onSuccess:()=>{
     console.log ('project created successfully');
     void utils.users.getProjects.invalidate();
     toast.success('Project created successfully')
+    setUrl ('');
+    setTitle ('');
+    setDescription ('');
+    setDemoUrl ('');
+    setRepoUrl ('');
   },
   onError: ()=>{
     toast.error('Failed to create project');

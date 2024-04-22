@@ -39,7 +39,11 @@ export const EditProject:React.FC<props> = ({project}) =>{
             <h1 className="font-[600] text-[#20293A] text-2xl">Edit Project</h1>
 
             <div className='flex justify-start items-center gap-4'>
+            {url.length ?  
             <img src={url} alt="" className="w-[217px] h-[138px] rounded-md object-cover" />
+            : <div className="w-[260px] h-[138px] rounded-md bg-[#F3F4F6] flex justify-center items-center">
+                <img src="/image.svg" className="w-10" alt="" />
+                </div>}
             <div className='flex flex-col items-start justify-start gap-2 w-full h-full'>
             <UploadButton
                   content={{
