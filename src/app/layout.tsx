@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { SessionProvider } from "next-auth/react";
+import GlobalProvider from "~/lib/providers/GlobalProvider";
 
 
 const inter = Inter({
@@ -26,7 +27,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
           <TRPCReactProvider>
+            <GlobalProvider>
             {children}
+            </GlobalProvider>
           </TRPCReactProvider>
       </body>
     </html>

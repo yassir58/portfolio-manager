@@ -4,9 +4,10 @@ import { authOptions } from "~/server/auth";
 
 const page = async () => {
 
+  const session = await getServerSession(authOptions);
  
   return (
-    <PortfolioScreen />
+    <PortfolioScreen userLoggedIn={session?.user?true:false}/>
   );
 };
 

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
 import { UploadButton } from "~/lib/uploadthing";
+import {toast} from 'react-hot-toast';
 export const ProfileScreen = () => {
   const path = usePathname();
   const userName = path.split("/")[1];
@@ -21,7 +22,11 @@ export const ProfileScreen = () => {
     onSuccess: () => {
       console.log("Profile updated successfully");
       void utils.users.getUserByUsername.invalidate();
+      toast.success('Profile updated successfully')
     },
+    onError:() =>{
+      toast.error('Profile update failed');
+    }
   });
 
   useEffect(() => {
@@ -39,10 +44,10 @@ export const ProfileScreen = () => {
   }
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-      <div className="flex w-[70%] flex-col items-start justify-center gap-6 pt-8">
+      <div className="flex w-[95%] md:w-[70%] flex-col items-start justify-center gap-6 pt-8">
         <h1 className="text-2xl font-[600] text-[#20293A]">Profile settings</h1>
         <div className="mb-6 flex h-auto w-full flex-col items-center justify-center rounded-md border-2 border-[#E3E8EF] py-3">
-          <div className="flex h-[250px] w-[90%] items-center justify-center rounded-md bg-[#F2F5F9]">
+          <div className="flex h-[400px] md:h-[250px] w-[90%] items-center justify-center rounded-md bg-[#F2F5F9]">
             <div className="flex flex-col items-center justify-center gap-2">
              {
                 url.length > 0 ? <img src={url} alt="profile" className="w-[80px] h-[80px] rounded-full"/> : ( <div className="flex h-[80px] w-[80px] items-center justify-center rounded-full  bg-[#CDD5E0] hover:opacity-85">
@@ -52,7 +57,7 @@ export const ProfileScreen = () => {
               <p className="pt-6 text-[18px] text-[#677489]">
                 Image must be 256 x 256px - max 2MB
               </p>
-              <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center justify-center gap-4 md:flex-row flex-col">
                 <UploadButton
                   content={{
                     button({ ready }) {
@@ -88,7 +93,7 @@ export const ProfileScreen = () => {
             </div>
           </div>
           <div className="flex w-[90%] flex-col items-start justify-start gap-4 py-6">
-            <div className="flex w-full items-start justify-start gap-6 ">
+            <div className="flex w-full items-start justify-start gap-6 flex-col md:flex-row ">
               <div className="flex w-full flex-col items-start justify-start gap-2">
                 <label className="font-[500] " htmlFor="email">
                   Email
@@ -116,7 +121,7 @@ export const ProfileScreen = () => {
                 />
               </div>
             </div>
-            <div className="flex w-full items-start justify-start gap-6 ">
+            <div className="flex w-full items-start justify-start gap-6 flex-col md:flex-row ">
               <div className="flex w-[50%] flex-col items-start justify-start gap-2">
                 <label className="font-[500] " htmlFor="name">
                   Full Name

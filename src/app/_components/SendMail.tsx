@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const SendEmail:React.FC = ()=>{
 
@@ -22,16 +23,16 @@ const sendMail = async ()=> {
       });
   
       if (response.ok) {
-        console.log('Email sent successfully!');
+        toast.success('Email sent successfully!');
       } else {
-        console.error('Failed to send email:', response.statusText);
+        toast.error('Failed to send email:');
       }
    
   }
   
     return (
         <div className='w-full h-full flex flex-col justify-start items-start gap-4 p-6'>
-            <h1 className='font-[600] text-2xl text-[#20293A]'>Send Email</h1>
+            <h1 className='font-[600] text-2xl text-[#20293A]'>Contact me</h1>
             <div className='flex flex-col items-start justify-start gap-2 w-full'>
                 <label className='font-[500]' htmlFor="email">Email</label>
                 <input onChange={(e)=>setFrom (e.target.value)} type="email" id='email' className='primary-input' placeholder='Enter email'/>

@@ -77,8 +77,14 @@ export const usersRouter = createTRPCRouter ({
         })
        
     }),
-    getProjects:protectedProcedure.query (async ({ctx})=>{
-        const response = await ctx.db.project.findMany()
+    getProjects:publicProcedure.input(z.object ({
+        id:z.string ()
+    })).query (async ({ctx, input})=>{
+        const response = await ctx.db.project.findMany({
+            where:{
+                userId:input.id
+            }
+        })
         return response;
     }),
     upateProject:protectedProcedure.input (z.object({

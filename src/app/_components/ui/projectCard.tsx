@@ -17,7 +17,7 @@ interface props
 
 const ProjectCard:React.FC<props> = ({project, edit}) =>{
     return (
-        <div className='w-full rounded-md border-2 border-[#E3E8EF] p-4 flex justify-start items-center gap-6'>
+        <div className='w-full rounded-md border-2 border-[#E3E8EF] p-4 flex justify-start items-start gap-6 flex-col md:flex-row md:items-center'>
             <img src={project.image} alt="" className="w-[217px] h-[138px] rounded-md object-cover" />
             <div className='flex flex-col items-start justify-start gap-2 w-full h-full '>
             <h1 className="font-[600] text-[#20293A] text-2xl">{project.name}</h1>
@@ -31,7 +31,7 @@ const ProjectCard:React.FC<props> = ({project, edit}) =>{
                         <EditProject project={project}/>
                     </Modal>
                 ) : (
-                    <div className='flex justify-start items-center gap-3'>
+                    <div className='flex justify-start items-start gap-3 flex-col sm:flex-row sm:items-center'>
                         
                         <Link href={project.demoUrl} className="outline-btn flex items-center justify-center gap-2">
                      Demo URL

@@ -8,9 +8,10 @@ export default async function Home() {
   const test = await getServerAuthSession ()
 
 
-  console.log (session)
+  console.log ('session: --------------------------------> :' ,session)
   if (!session || (session && session.user == null))
     redirect ('/auth/signin');
+  
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">

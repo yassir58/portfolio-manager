@@ -5,16 +5,14 @@ import CheckElement from "~/app/_components/ui/checkElement";
 import { Input } from "~/components/ui/input";
 import axios from 'axios';
 import {useState} from 'react';
-import z from 'zod'
 import {signIn} from 'next-auth/react'
-export const requestSchema = z.object({
-    email: z.string().email (),
-    password:z.string().min(6)
-})
+import { requestSchema } from "../../../../constant";
+import {toast} from 'react-hot-toast'
 
 export const SignupScreen:React.FC = ()=>{
     
     const router = useRouter(); 
+    const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const lowercase =  /[a-z]/.test(password);
@@ -25,17 +23,18 @@ export const SignupScreen:React.FC = ()=>{
     const signUp = async () => {
         try {
           const req = requestSchema.parse({
+            name: name,
             email: email,
             password: password,
           });
           const res = await axios.post("/api/user", JSON.stringify(req));
           if (res.status === 201) {
-            // toast.success(`User signup successfully`);
+            toast.success(`User signup successfully`);
             router.push("/auth/signin");
           }
         } catch (error: unknown) {
             alert ('failed to signup')
-        //   toast.error (`Error : signup faild`)
+            toast.error (`Error : signup faild`)
         }
       };
     return (
@@ -61,6 +60,7 @@ export const SignupScreen:React.FC = ()=>{
                     <div className='text-[#677489] text-[15px]'>or</div>
                     <div className='w-[50%] h-[1px] bg-[#E5E5E5]'></div>
                 </div>
+                <Input type='text' className='primary-input' placeholder="Enter your full name" onChange={(e)=> setName (e.target.value)} required/>
                 <Input type="email" className="primary-input" placeholder='Enter email'onChange={(e)=> setEmail (e.target.value)} required/>
                 <div className="flex w-[400px]  flex-col gap-1 justify-center items-end">
                     <Input type="password" className="primary-input" placeholder='Enter a password' onChange={(e)=> setPassword (e.target.value)} required/>

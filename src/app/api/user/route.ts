@@ -14,7 +14,7 @@ export async function POST (req:Request){
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const body = await req.json ();
         
-        const {email, password} = requestSchema.parse (body) ;
+        const {name, email, password} = requestSchema.parse (body) ;
         const emailAlreadyExist = await db.user.findUnique ({
             where:{email:email}
         })
@@ -24,8 +24,9 @@ export async function POST (req:Request){
         const hashedPassword =  await bcrypt.hash (password, 10);
         const newUser =  await db.user.create({
                 data: {
-                  email: email,
-                  password: hashedPassword,
+                    name: name??'',
+                    email: email,
+                    password: hashedPassword,
                 },
               });
         return NextResponse.json ({user:newUser, message:'User created succesfully'}, {status:201})

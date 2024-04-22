@@ -81,7 +81,7 @@ export function SettingsMenu({
               Projects Settings
             </Link>
             <Link
-              href={`/${username}/portfolio`}
+              href={`/${user.id}/portfolio`}
               className="flex items-center justify-start gap-2 font-[500] text-[#20293A]"
             >
               <img src="/airplay.svg" alt="" />

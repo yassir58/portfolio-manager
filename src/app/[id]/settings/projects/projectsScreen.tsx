@@ -5,6 +5,8 @@ import ProjectCard from "~/app/_components/ui/projectCard";
 import {Input} from "~/components/ui/input";
 import { UploadButton } from "~/lib/uploadthing";
 import { api } from "~/trpc/react";
+import {toast} from 'react-hot-toast';
+import ProjectsList from "~/app/_components/ProjectsList";
 
 interface props {
     user: {
@@ -24,17 +26,22 @@ const [description, setDescription] = useState ('')
 const [demoUrl, setDemoUrl] = useState ('')
 const [repoUrl, setRepoUrl] = useState ('')
 const utils = api.useUtils();
-const {data:projects, isLoading} = api.users.getProjects.useQuery();
+const {data:projects} = api.users.getProjects.useQuery({id:user.id});
 const createProject = api.users.createProject.useMutation({
   onSuccess:()=>{
     console.log ('project created successfully');
     void utils.users.getProjects.invalidate();
+    toast.success('Project created successfully')
+  },
+  onError: ()=>{
+    toast.error('Failed to create project');
   }
+
 });
 
     return (
         <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-        <div className="flex w-[70%] flex-col items-start justify-center gap-6 pt-8">
+        <div className="flex w-[95%] md:w-[70%] flex-col items-start justify-center gap-6 pt-8">
           <h1 className="text-2xl font-[600] text-[#20293A]">
             Projects settings
           </h1>
@@ -43,7 +50,7 @@ const createProject = api.users.createProject.useMutation({
             Add Project
           </button>
           <div className={`flex h-auto w-full flex-col items-center justify-center rounded-md border-2 border-[#E3E8EF] py-3 ${isVisible ? 'block' : 'hidden'}`}>
-            <div className="flex h-[250px] w-[90%] items-center justify-center rounded-md bg-[#F2F5F9]">
+            <div className="flex h-[400px] md:h-[250px] w-[90%] items-center justify-center rounded-md bg-[#F2F5F9]">
               <div className="flex flex-col items-center justify-center gap-2">
               {
                 url.length > 0 ? <img src={url} alt="profile" className="w-[80px] h-[80px] rounded-full"/> : ( <div className="flex h-[80px] w-[80px] items-center justify-center rounded-full  bg-[#CDD5E0] hover:opacity-85">
@@ -53,7 +60,7 @@ const createProject = api.users.createProject.useMutation({
                 <p className="pt-6 text-[18px] text-[#677489]">
                   Image must be 256 x 256px - max 2MB
                 </p>
-                <div className="flex items-center justify-center gap-4">
+                <div className="flex items-center justify-center gap-4 flex-col md:flex-row">
                 <UploadButton
                   content={{
                     button({ ready }) {
@@ -88,7 +95,7 @@ const createProject = api.users.createProject.useMutation({
               </div>
             </div>
             <div className="flex w-[90%] flex-col items-start justify-start gap-4 py-6">
-              <div className="flex w-full items-start justify-start gap-6">
+              <div className="flex w-full items-start justify-start gap-6 flex-col md:flex-row">
                 <div className="flex flex-col items-start justify-start gap-2 w-full">
                   <label className="font-[500] " htmlFor="demoUrl">
                     Project name
@@ -167,11 +174,7 @@ const createProject = api.users.createProject.useMutation({
           </div>
         </div>
         <div className="flex w-[70%] flex-col items-start justify-center gap-6 py-8">
-                {
-                  projects?.map((project, index)=>(
-                    <ProjectCard key={index} project={project} edit={true}/>
-                  ))
-                }
+                <ProjectsList id={user?.id} edit={true}/>
         </div>
       </div>
     )

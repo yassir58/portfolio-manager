@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { UploadButton } from "~/lib/uploadthing"
 import { api } from "~/trpc/react"
+import {toast} from 'react-hot-toast'
 
 interface props {
     project :{
@@ -26,6 +27,10 @@ export const EditProject:React.FC<props> = ({project}) =>{
         onSuccess: () => {
             console.log('Project updated')
             void utils.users.getProjects.invalidate ();
+            toast.success ('Project updated successfully');
+        },
+        onError: ()=>{
+            toast.error ('Error updating project');
         }
     })
     return (

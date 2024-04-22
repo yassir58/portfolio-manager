@@ -6,6 +6,7 @@ import Link from "next/link";
 import {useState} from 'react'
 import {useRouter} from 'next/navigation'
 import { Input } from "~/components/ui/input";
+import {toast} from 'react-hot-toast'
 export const SignInScreen = ()=>{
 
 
@@ -20,9 +21,10 @@ export const SignInScreen = ()=>{
             redirect:false
         })
         if (signInData!.error)
-          alert (`Error: ${signInData!.error}`)
+          toast.error ('Invalid credentials, please try again');
         else {
-                router.push ('/')
+            toast.success ('Welcome back')
+            router.push ('/')
         }
     }
     return (
