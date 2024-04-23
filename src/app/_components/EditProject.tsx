@@ -82,25 +82,25 @@ export const EditProject:React.FC<props> = ({project}) =>{
                     <label className="font-[500] " htmlFor="name">
                         Project Name
                     </label>
-                    <input onChange={(e)=> setTitle (e.target.value)} type="text" className="primary-input" placeholder="Enter your project name" />
+                    <input value={title} onChange={(e)=> setTitle (e.target.value)} type="text" className="primary-input" placeholder="Enter your project name" />
                 </div>
                 <div className='flex flex-col items-start justify-start gap-2 w-full h-full'>
                     <label className="font-[500] " htmlFor="description">
                         Description
                     </label>
-                    <textarea onChange={(e)=> setDescription (e.target.value)} className="primary-input" placeholder="Enter your project description" />
+                    <textarea value={description} onChange={(e)=> setDescription (e.target.value)} className="primary-input" placeholder="Enter your project description" />
                 </div>
                 <div className='flex flex-col items-start justify-start gap-2 w-full h-full'>
                     <label className="font-[500] " htmlFor="demo">
                         Demo URL
                     </label>
-                    <input onChange={(e)=> setDemoUrl (e.target.value)} type="text" className="primary-input" placeholder="Enter your demo url" />
+                    <input value={demoUrl} onChange={(e)=> setDemoUrl (e.target.value)} type="text" className="primary-input" placeholder="Enter your demo url" />
                 </div>
                 <div className='flex flex-col items-start justify-start gap-2 w-full h-full'>
                     <label className="font-[500] " htmlFor="repo">
                         Repository URL
                     </label>
-                    <input onChange={(e)=> setRepoUrl(e.target.value)} type="text" className="primary-input" placeholder="Enter your repository url" />
+                    <input value={repoUrl} onChange={(e)=> setRepoUrl(e.target.value)} type="text" className="primary-input" placeholder="Enter your repository url" />
                 </div>
                 <div className='flex justify-start items-center gap-4'>
                    

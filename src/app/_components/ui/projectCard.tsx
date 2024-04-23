@@ -1,6 +1,8 @@
 import { EditProject } from "../EditProject"
 import Modal from "./modal"
 import Link from 'next/link'
+import Markdown from 'react-markdown'
+
 interface props
 {
     edit:boolean,
@@ -25,7 +27,11 @@ const ProjectCard:React.FC<props> = ({project, edit}) =>{
                 </div>}
             <div className='flex flex-col items-start justify-start gap-2 w-full h-full '>
             <h1 className="font-[600] text-[#20293A] text-2xl">{project.name}</h1>
-                <p className="text-[#677489] text-[17px] font-[400]">{project.description}</p>
+                <p className="text-[#677489] text-[17px] font-[400]">
+                    
+                    <Markdown>{project.description}</Markdown>
+                    
+                    </p>
                 {edit ? (
 
                     <Modal variant={'secondary-btn'} value={<div className='flex items-center justify-center gap-2'>

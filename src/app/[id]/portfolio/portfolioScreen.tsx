@@ -6,6 +6,7 @@ import Spinner from "~/app/_components/spinner";
 import Modal from "~/app/_components/ui/modal";
 import SendEmail from "~/app/_components/SendMail";
 import ProjectsList from "~/app/_components/ProjectsList";
+import Markdown from 'react-markdown'
 
 interface props {
   userLoggedIn:boolean
@@ -73,23 +74,44 @@ export const PortfolioScreen: React.FC<props> = (userLoggedIn) => {
         >
           <SendEmail />
         </Modal>
-          <button className="outline-btn ">
-          <div className=" flex items-center justify-center gap-2">
-              <img src="/download.svg" alt="" />
-              Download resume
-            </div>
-          </button>
 
-          <Link href=''>
-          <img src="/linkedin.svg" alt="" className='w-8 hover:opacity-90'/>
+        <Modal  variant='outline-btn' value={
+          <div className=" flex items-center justify-center gap-2">
+          <img src="/info.svg" alt="" />
+          info
+        </div>
+        }>
+         <div className='flex w-full h-[200px] justify-start px-6 items-center'>
+          <div className='flex flex-col items-start gap-4'>
+          <Link href='' className='text-[#677489] flex justify-start items-center gap-2'>
+          <img src="/linkedin.svg" alt="" className='w-5 hover:opacity-90'/>
+          https://www.linkedin.com/in/{data?.username}
           </Link>
-          <Link href=''>
-          <img src="/githubDark.svg" alt="" className='w-8 hover:opacity-90'/>
+          <Link href='' className='text-[#677489] flex justify-start items-center gap-2'>
+          <img src="/githubDark.svg" alt="" className='w-5 hover:opacity-90'/>
+          https://www.github.com/{data?.username}
           </Link>
+          <Link href='' className='text-[#677489] flex justify-start items-center gap-2'>
+          <img src="/message.svg" alt="" className='w-5 hover:opacity-90'/>
+          {data?.email}
+          </Link>
+          <Link href='' className='text-[#677489] flex justify-start items-center gap-2'>
+          <img src="/download.svg" alt="" className='w-5 hover:opacity-90'/>
+          Download resume
+          </Link>
+
+            </div>
+         </div>
+        </Modal>
+         
+
+          
         </div>
         <p className="mb-4 mt-6 text-[17px] font-[400] text-[#677489]">Bio</p>
         <p className="mb-8 text-[17px] font-[400] text-[#364153]">
-          {data?.bio ?? ""}
+        <Markdown>
+        {data?.bio ?? ""}
+        </Markdown>
         </p>
         <div className="my-4 h-[1px] w-full bg-[#E3E8EF]"></div>
         <ProjectsList id={data?.id??''} edit={false} />
