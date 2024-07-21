@@ -25,7 +25,7 @@
 - [tRPC](https://trpc.io)
 
 ## ho to run project
-``bash
+```bash
 # dev mode 
 npx prisma migrate dev
 npm run dev
